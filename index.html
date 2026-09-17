@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Infantini</title>
+<meta name="description" content="Guilherme Infantini, 15 anos, estudante do técnico em Informática para a Internet em Varginha, Minas Gerais.">
+
+<!-- Fontes escolhidas: Fraunces (títulos, arredondada e acolhedora) e Nunito (texto) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     VARIÁVEIS DE COR — paleta "Café com Leite" escolhida por mim.
+     Tema claro é o padrão. O tema escuro troca só estas variáveis.
+     ========================================================= */
+  :root,
+  [data-tema="claro"]{
+    --fundo:      #F5EFE6; /* fundo geral da página */
+    --texto:      #2B211A; /* texto principal */
+    --primaria:   #8B5E3C; /* marrom, usada em títulos e ícones */
+    --secundaria: #C9A27E; /* bege, usada em fundos e bordas suaves */
+    --destaque:   #D9481C; /* laranja, usada em detalhes e botões */
+    --fundo-alt: color-mix(in srgb, var(--secundaria) 16%, var(--fundo));
+    --sombra: 0 10px 26px rgba(43,33,26,.14);
+    --fonte-titulo: 'Fraunces', Georgia, serif;
+  }
+  /* Tema escuro: mesmas cinco cores, só que invertendo o que é
+     fundo e o que é texto, para manter contraste bom (AA). */
+  [data-tema="escuro"]{
+    --fundo:      #211A13;
+    --texto:      #F5EFE6;
+    --primaria:   #E0C29A;
+    --secundaria: #8B5E3C;
+    --destaque:   #FF7C52;
+    --fundo-alt: color-mix(in srgb, var(--secundaria) 30%, var(--fundo));
+    --sombra: 0 10px 28px rgba(0,0,0,.5);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{scroll-behavior:smooth}
+
+  body{
+    margin:0;
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Nunito',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    transition:background .3s ease,color .3s ease;
+  }
+
+  /* Fundo pontilhado, bem sutil, fixo atrás de tudo */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background-image:radial-gradient(var(--primaria) 1px, transparent 1px);
+    background-size:24px 24px;
+    opacity:.12;
+    pointer-events:none;
+  }
+
+  h1,h2{
+    font-family:'Fraunces',Georgia,serif;
+    color:var(--primaria);
+    line-height:1.15;
+    margin:0;
+  }
+
+  a{color:var(--destaque)}
+  a:focus-visible,button:focus-visible{
+    outline:3px solid var(--destaque);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .sr-only{
+    position:absolute;width:1px;height:1px;
+    padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+
+  .env{width:100%;max-width:1020px;margin-inline:auto;padding-inline:22px}
+
+  /* =========================================================
+     BARRA DE PROGRESSO DE LEITURA (fica no topo, cresce ao rolar)
+     ========================================================= */
+  .progresso{
+    position:fixed;top:0;left:0;
+    height:4px;width:0%;
+    background:var(--destaque);
+    z-index:60;
+    transition:width .1s linear;
+  }
+
+  /* =========================================================
+     BARRA SUPERIOR — logo + botão de alternar tema
+     ========================================================= */
+  .topo-fixo{
+    position:sticky;top:0;z-index:30;
+    background:color-mix(in srgb, var(--fundo) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid color-mix(in srgb, var(--primaria) 25%, transparent);
+  }
+  .env-fixo{
+    max-width:1020px;margin-inline:auto;padding:14px 22px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--primaria);color:var(--fundo);
+    display:grid;place-items:center;
+    font-family:'Fraunces',serif;font-size:.95rem;
+    text-decoration:none;
+    border:0;cursor:pointer;padding:0;
+    transition:transform .2s ease;
+  }
+  .logo:hover{ transform:scale(1.08); }
+  .logo-hero{
+    width:46px;height:46px;font-size:1.05rem;
+    margin-bottom:16px;
+  }
+  .botao-tema{
+    width:40px;height:40px;border-radius:50%;
+    border:1px solid color-mix(in srgb, var(--primaria) 35%, transparent);
+    background:var(--fundo-alt);
+    color:var(--primaria);
+    display:grid;place-items:center;cursor:pointer;
+    transition:transform .3s ease;
+  }
+  .botao-tema:hover{transform:rotate(20deg)}
+  .botao-tema svg{width:19px;height:19px}
+  .icone-lua{display:none}
+  [data-tema="escuro"] .icone-sol{display:none}
+  [data-tema="escuro"] .icone-lua{display:block}
+
+  /* =========================================================
+     HERO — layout dividido (texto à esquerda, foto à direita)
+     ========================================================= */
+  .hero{padding:64px 0 90px}
+  .hero .env{
+    display:grid;grid-template-columns:1.35fr .8fr;
+    gap:48px;align-items:center;
+  }
+  .etiqueta{
+    display:inline-block;
+    background:var(--fundo-alt);color:var(--primaria);
+    font-weight:700;font-size:.88rem;
+    padding:6px 15px;border-radius:999px;
+    margin:0 0 18px;
+  }
+  h1{font-size:clamp(2.5rem,8vw,4rem);min-height:1.15em}
+  .frase-hero{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:1.4rem;color:var(--destaque);
+    margin:18px 0 6px;
+  }
+  .curso{color:var(--texto);opacity:.8;font-weight:600;margin:0}
+
+  .hero-foto{justify-self:center}
+  .avatar{
+    width:min(230px,58vw);aspect-ratio:1;border-radius:50%;
+    background:var(--primaria);color:var(--fundo);
+    display:grid;place-items:center;
+    font-family:'Fraunces',serif;font-size:3.6rem;
+    box-shadow:var(--sombra);
+    border:6px solid var(--fundo-alt);
+  }
+
+  /* =========================================================
+     DIVISÓRIA EM ONDA entre seções
+     ========================================================= */
+  .onda{display:block;width:100%;height:48px;margin-top:-1px}
+  .onda path{fill:var(--fundo)}
+  .onda.para-alt path{fill:var(--fundo-alt)}
+  .onda.para-fundo path{fill:var(--fundo)}
+
+  /* =========================================================
+     SEÇÕES gerais
+     ========================================================= */
+  .secao{padding:56px 0}
+  .secao.alt{background:var(--fundo-alt)}
+  .secao h2{font-size:clamp(1.6rem,4.2vw,2.1rem);margin-bottom:28px}
+
+  /* Animação de revelar ao rolar (some/some não, conforme prefers-reduced-motion) */
+  .revela{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+  .revela.mostrar{opacity:1;transform:none}
+
+  /* --------- Sobre mim --------- */
+  .sobre p{max-width:64ch;color:var(--texto);margin:0}
+  .sobre p + p{margin-top:16px}
+
+  .detalhe{
+    margin-top:26px;
+    display:flex;align-items:center;gap:14px;
+    background:var(--fundo);
+    border:2px dashed var(--destaque);
+    border-radius:16px;
+    padding:16px 20px;
+    max-width:56ch;
+  }
+  .detalhe svg{width:30px;height:30px;color:var(--destaque);flex:none}
+  .detalhe p{margin:0;font-weight:700}
+
+  /* --------- Minhas entregas: carrossel em formato de celular --------- */
+  .carrossel-celular{
+    max-width:320px;margin:0 auto;text-align:center;
+    border-radius:20px; /* só pra o contorno de foco ficar bonito */
+  }
+
+  /* moldura do aparelho */
+  .celular{
+    position:relative;
+    background:var(--texto);
+    border-radius:44px;
+    padding:16px 12px;
+    box-shadow:var(--sombra);
+  }
+  .entalhe{
+    width:64px;height:7px;border-radius:999px;
+    background:var(--fundo);opacity:.35;
+    margin:0 auto 10px;
+  }
+  .botao-lateral{
+    position:absolute;width:3px;border-radius:2px;
+    background:color-mix(in srgb, var(--fundo) 30%, transparent);
+  }
+  .botao-lateral-1{left:-3px;top:110px;height:46px}
+  .botao-lateral-2{right:-3px;top:140px;height:60px}
+
+  /* tela: só o que está dentro dela é visível — as entregas deslizam aqui */
+  .tela{
+    background:var(--fundo);
+    border-radius:30px;
+    overflow:hidden;
+    aspect-ratio:9/17.5;
+    position:relative;
+  }
+  .tela-pista{
+    list-style:none;margin:0;padding:0;
+    display:flex;height:100%;width:100%;
+    /* --indice é trocado pelo JS: cada passo desliza uma tela inteira */
+    transform:translateX(calc(var(--indice, 0) * -100%));
+    transition:transform .5s ease;
+  }
+  .tela-slide{
+    flex:0 0 100%;height:100%;
+    display:flex;flex-direction:column;
+    text-align:left;
+    padding:28px 22px;
+    overflow-y:auto;
+  }
+  .tela-slide .numero{
+    font-family:'Fraunces',serif;font-size:.82rem;
+    color:var(--primaria);font-weight:700;margin:0 0 6px;
+  }
+  .tela-slide h3{
+    font-family:'Fraunces',serif;font-size:1.22rem;
+    margin:0 0 6px;color:var(--texto);
+  }
+  .tela-slide .data{font-size:.83rem;color:var(--texto);opacity:.65;margin:0 0 10px}
+  .selo{
+    display:inline-block;font-size:.76rem;font-weight:800;
+    padding:4px 11px;border-radius:999px;margin-bottom:12px;align-self:flex-start;
+  }
+  .selo.concluida{background:var(--primaria);color:var(--fundo)}
+  .selo.em-breve{background:transparent;border:1.5px dashed var(--texto);color:var(--texto);opacity:.7}
+  .tela-slide .resumo{font-size:.94rem;margin:0 0 14px;color:var(--texto);flex:1}
+  .tela-slide .link-entrega{
+    display:inline-block;font-weight:800;text-decoration:none;
+    border-bottom:2px solid var(--destaque);color:var(--texto);align-self:flex-start;
+  }
+  .tela-slide .link-desativado{
+    display:inline-block;font-weight:700;color:var(--texto);opacity:.6;align-self:flex-start;
+  }
+
+  /* setas e bolinhas abaixo do celular */
+  .controles-celular{
+    display:flex;align-items:center;justify-content:center;gap:18px;
+    margin-top:20px;
+  }
+  .seta-celular{
+    width:42px;height:42px;border-radius:50%;
+    border:1px solid color-mix(in srgb, var(--primaria) 35%, transparent);
+    background:var(--fundo-alt);color:var(--primaria);
+    display:grid;place-items:center;cursor:pointer;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+  .seta-celular:hover{background:var(--destaque);color:var(--fundo);transform:scale(1.06)}
+  .seta-celular svg{width:18px;height:18px}
+
+  .pontos{display:flex;align-items:center;gap:9px}
+  .ponto{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--secundaria);border:0;padding:0;
+    opacity:.5;cursor:pointer;transition:opacity .2s ease,transform .2s ease;
+  }
+  .ponto.ativo{opacity:1;background:var(--destaque);transform:scale(1.35)}
+
+  @media (max-width:480px){
+    .carrossel-celular{max-width:270px}
+    .celular{padding:12px 9px;border-radius:36px}
+    .tela{border-radius:24px}
+  }
+
+  /* --------- Manifesto --------- */
+  .manifesto .frase-destaque{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:clamp(1.4rem,4vw,2rem);
+    color:var(--primaria);
+    text-align:center;
+    max-width:34ch;margin:0 auto 34px;
+    line-height:1.35;
+  }
+  .texto-manifesto{
+    max-width:70ch;margin:0 auto;color:var(--texto);
+    background:var(--fundo);
+    border:1px dashed color-mix(in srgb, var(--primaria) 45%, transparent);
+    border-radius:14px;padding:28px 26px;
+    text-align:left;
+  }
+  .texto-manifesto p{margin:0}
+  .texto-manifesto p + p{margin-top:16px}
+
+  /* =========================================================
+     RODAPÉ / CONTATO
+     ========================================================= */
+  footer{
+    background:var(--primaria);color:var(--fundo);
+    padding:50px 0 100px; /* espaço extra embaixo por causa do menu flutuante */
+  }
+  footer h2{color:var(--fundo);font-size:1.5rem;margin-bottom:20px}
+  .contatos{display:flex;gap:30px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid color-mix(in srgb, var(--fundo) 35%, transparent)}
+  .contatos small{display:block;opacity:.75;font-size:.85rem;margin-bottom:2px}
+  .contatos a{color:var(--fundo);text-decoration:none;border-bottom:1px solid color-mix(in srgb, var(--fundo) 55%, transparent);font-weight:700}
+  .contatos a:hover{border-bottom-color:var(--fundo)}
+  .assinatura{margin:20px 0 0;font-size:.87rem;opacity:.75}
+
+  /* =========================================================
+     MENU FLUTUANTE (pílula, fixo embaixo da tela)
+     ========================================================= */
+  .menu-flutuante{
+    position:fixed;left:50%;bottom:16px;
+    transform:translateX(-50%);
+    z-index:50;
+    display:flex;gap:2px;
+    background:color-mix(in srgb, var(--fundo) 92%, transparent);
+    backdrop-filter:blur(10px);
+    border:1px solid color-mix(in srgb, var(--primaria) 30%, transparent);
+    border-radius:999px;
+    padding:6px;
+    box-shadow:var(--sombra);
+    max-width:94vw;
+    overflow-x:auto;
+  }
+  .menu-flutuante a{
+    white-space:nowrap;
+    text-decoration:none;color:var(--texto);
+    font-weight:700;font-size:.86rem;
+    padding:9px 15px;border-radius:999px;
+  }
+  .menu-flutuante a.ativo{background:var(--destaque);color:var(--fundo)}
+
+  /* =========================================================
+     RESPONSIVO — celular
+     ========================================================= */
+  @media (max-width:820px){
+    .hero{padding:38px 0 64px}
+    .hero .env{grid-template-columns:1fr;gap:34px}
+    .hero-foto{order:-1;justify-self:start}
+    .secao{padding:44px 0}
+  }
+  @media (max-width:480px){
+    body{font-size:16px}
+    .menu-flutuante a{padding:8px 11px;font-size:.8rem}
+    .detalhe{flex-direction:column;align-items:flex-start;text-align:left}
+  }
+
+  /* =========================================================
+     11. EXTRAS: cidade com chuva no fundo, cursor personalizado,
+     confete e o Tux escondido no logo
+     ========================================================= */
+
+  /* --------- Cenário: skyline + chuva, fixos atrás de tudo --------- */
+  #cidade{
+    position:fixed;left:0;bottom:0;width:100%;height:min(22vh,180px);
+    z-index:-2;pointer-events:none;opacity:.5;
+  }
+  #chuva{
+    position:fixed;inset:0;width:100%;height:100%;
+    z-index:-2;pointer-events:none;opacity:.35;
+  }
+  /* pisca de leve quando "falta luz" na cidade */
+  #apagao{
+    position:fixed;inset:0;
+    background:var(--texto);
+    opacity:0;
+    z-index:-2;pointer-events:none;
+    transition:opacity .35s ease;
+  }
+
+  /* --------- Confete (fica por cima de tudo quando estoura) --------- */
+  #confete{ position:fixed; inset:0; pointer-events:none; z-index:90; }
+
+  /* --------- Cursor personalizado --------- */
+  .cursor{
+    position:fixed;
+    top:0;left:0;
+    width:26px;height:26px;
+    border:2px solid var(--primaria);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:100;
+    transform:translate(-50%,-50%);
+    transition:width .2s,height .2s,border-color .2s;
+    display:none;
+  }
+  .cursor::after{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:4px;height:4px;
+    background:var(--destaque);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+  .cursor.sobre-link{ width:42px;height:42px;border-color:var(--destaque); }
+
+  /* Só troca o cursor em aparelhos com mouse (celular não tem cursor) */
+  @media (pointer:fine){
+    body.cursor-ativo,body.cursor-ativo a,body.cursor-ativo button{cursor:none}
+    body.cursor-ativo .cursor{display:block}
+  }
+
+  /* --------- Tux, o easter egg escondido no logo --------- */
+  #tux-surpresa{
+    position:fixed;
+    top:50%;left:50%;
+    z-index:95;
+    display:grid;
+    justify-items:center;
+    gap:.5rem;
+    transform:translate(-50%,-50%) scale(0);
+    transition:transform .5s cubic-bezier(.3,1.6,.6,1);
+    pointer-events:none;
+  }
+  #tux-surpresa.aparece{ transform:translate(-50%,-50%) scale(1); }
+  #tux-surpresa svg{ width:160px; }
+  .balao{
+    background:var(--texto);
+    color:var(--fundo);
+    font:700 1rem var(--fonte-titulo);
+    padding:.5rem .9rem;
+    border-radius:12px;
+  }
+  @keyframes acenar{
+    0%,100%{ transform:rotate(0); }
+    50%{ transform:rotate(-25deg); }
+  }
+  #tux-surpresa.aparece .asa-acenando{
+    transform-origin:30px 70px;
+    animation:acenar .5s ease-in-out 3;
+  }
+
+  /* =========================================================
+     RESPEITA "REDUZIR MOVIMENTO" — desliga toda animação/transição
+     ========================================================= */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- Cenário de fundo: cidade (desenhada pelo JavaScript) e chuva (canvas).
+     Ficam atrás de tudo, então não atrapalham a leitura. -->
+<svg id="cidade" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+<canvas id="chuva" aria-hidden="true"></canvas>
+<div id="apagao" aria-hidden="true"></div>
+
+<!-- Canvas do confete (estoura ao clicar no meu nome) -->
+<canvas id="confete" aria-hidden="true"></canvas>
+
+<!-- Cursor personalizado (só aparece em aparelhos com mouse) -->
+<div class="cursor" aria-hidden="true"></div>
+
+<!-- Barra de progresso de leitura: a largura é atualizada pelo JS ao rolar -->
+<div class="progresso" id="progresso" aria-hidden="true"></div>
+
+<!-- Barra fixa do topo: logo + botão de tema -->
+<header class="topo-fixo">
+  <div class="env-fixo">
+    <a href="#inicio" class="logo" aria-label="Voltar ao início">GI</a>
+    <button id="botao-tema" class="botao-tema" type="button"
+            aria-label="Alternar entre tema claro e escuro" aria-pressed="false">
+      <!-- ícone de sol: aparece no tema claro -->
+      <svg class="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+      </svg>
+      <!-- ícone de lua: aparece no tema escuro -->
+      <svg class="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="env">
+      <div>
+        <button type="button" id="logo" class="logo logo-hero" aria-label="Logo Guilherme Infantini">GI</button>
+        <p class="etiqueta">15 anos · Varginha (MG)</p>
+
+        <!-- Nome: efeito de "decifrar letra por letra".
+             O texto real fica sempre disponível para leitor de tela (.sr-only);
+             o span animado é decorativo (aria-hidden) e o JS reduz/desliga
+             a animação se a pessoa pediu "reduzir movimento". -->
+        <h1>
+          <span class="sr-only">Guilherme Infantini</span>
+          <span id="nome-scramble" aria-hidden="true">Guilherme Infantini</span>
+        </h1>
+
+        <p class="frase-hero">Trabalho duro.</p>
+        <p class="curso">Técnico em Informática para a Internet</p>
+      </div>
+
+      <div class="hero-foto">
+        <!-- Avatar em círculo. Para usar foto de verdade, troque a div abaixo por:
+             <img class="avatar" src="minha-foto.jpg" alt="Foto de Guilherme Infantini" style="object-fit:cover"> -->
+        <div class="avatar" role="img" aria-label="Foto de Guilherme Infantini">GI</div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="onda para-alt" viewBox="0 0 1200 48" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C260,50 420,0 700,18 C900,32 1040,4 1200,22 L1200,48 L0,48 Z"></path>
+  </svg>
+
+  <!-- ================= SOBRE MIM ================= -->
+  <section id="sobre" class="secao alt sobre">
+    <div class="env">
+      <h2 class="revela">Sobre mim</h2>
+      <p class="revela">Tenho 15 anos, moro em Varginha, Minas Gerais, e curso o técnico em Informática para a Internet. Adoro aprender mais sobre tecnologia e trabalhar com ela — sou bem descontraído e sei executar trabalhos em equipe.</p>
+      <p class="revela">As três coisas que mais me definem são trabalho, força de vontade e esforço. Depois do curso técnico, pretendo seguir carreira como advogado.</p>
+
+      <!-- Detalhe único da minha página, bem visível -->
+      <aside class="detalhe revela">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="8" width="20" height="9" rx="4.5"/>
+          <path d="M7 10.5v4M5 12.5h4M15.5 11.5h.01M18.5 13.5h.01"/>
+        </svg>
+        <p>Sou cruzeirense e, nas horas vagas, gosto de jogar videogame.</p>
+      </aside>
+    </div>
+  </section>
+
+  <svg class="onda para-fundo" viewBox="0 0 1200 48" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,26 C260,0 420,50 700,30 C900,16 1040,44 1200,24 L1200,48 L0,48 Z"></path>
+  </svg>
+
+  <!-- ================= MINHAS ENTREGAS ================= -->
+  <section id="entregas" class="secao entregas">
+    <div class="env">
+      <h2 class="revela">Minhas entregas</h2>
+
+      <!-- Carrossel em formato de celular: mostra uma entrega por vez.
+           Dá pra passar clicando nas setas, nas bolinhas, arrastando o
+           dedo na tela (celular de verdade) ou com as setas do teclado. -->
+      <div class="carrossel-celular revela" tabindex="0"
+           aria-roledescription="carrossel" aria-label="Minhas entregas, uma por vez">
+
+        <div class="celular">
+          <div class="entalhe" aria-hidden="true"></div>
+
+          <div class="tela">
+            <ul class="tela-pista" id="pista-entregas" style="--indice:0">
+
+              <!-- Cada slide é uma entrega. Troque data, status e link quando
+                   ela estiver pronta: selo.em-breve -> selo.concluida,
+                   troque o <span class="link-desativado"> por
+                   <a class="link-entrega" href="LINK-REAL">Abrir pasta</a>. -->
+              <li class="tela-slide">
+                <p class="numero">Entrega 01</p>
+                <h3>Capa do Meu Álbum</h3>
+                <p class="data">Data: [PREENCHER]</p>
+                <span class="selo em-breve">Em breve</span>
+                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
+                <span class="link-desativado">Pasta ainda não publicada</span>
+              </li>
+
+              <li class="tela-slide">
+                <p class="numero">Entrega 02</p>
+                <h3>Dashboard Quem Sou Eu</h3>
+                <p class="data">Data: [PREENCHER]</p>
+                <span class="selo em-breve">Em breve</span>
+                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
+                <span class="link-desativado">Pasta ainda não publicada</span>
+              </li>
+
+              <li class="tela-slide">
+                <p class="numero">Entrega 03</p>
+                <h3>Árvore das Profissões 2.0</h3>
+                <p class="data">Data: [PREENCHER]</p>
+                <span class="selo em-breve">Em breve</span>
+                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
+                <span class="link-desativado">Pasta ainda não publicada</span>
+              </li>
+
+              <li class="tela-slide">
+                <p class="numero">Entrega 04</p>
+                <h3>Âncoras de Carreira</h3>
+                <p class="data">Data: [PREENCHER]</p>
+                <span class="selo em-breve">Em breve</span>
+                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
+                <span class="link-desativado">Pasta ainda não publicada</span>
+              </li>
+
+            </ul>
+          </div>
+
+          <span class="botao-lateral botao-lateral-1" aria-hidden="true"></span>
+          <span class="botao-lateral botao-lateral-2" aria-hidden="true"></span>
+        </div>
+
+        <div class="controles-celular">
+          <button type="button" id="entrega-anterior" class="seta-celular" aria-label="Entrega anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+
+          <div class="pontos" id="pontos-entregas" role="tablist" aria-label="Ir direto para uma entrega">
+            <button type="button" class="ponto ativo" data-indice="0" role="tab" aria-selected="true" aria-label="Entrega 1"></button>
+            <button type="button" class="ponto" data-indice="1" role="tab" aria-selected="false" aria-label="Entrega 2"></button>
+            <button type="button" class="ponto" data-indice="2" role="tab" aria-selected="false" aria-label="Entrega 3"></button>
+            <button type="button" class="ponto" data-indice="3" role="tab" aria-selected="false" aria-label="Entrega 4"></button>
+          </div>
+
+          <button type="button" id="entrega-proxima" class="seta-celular" aria-label="Próxima entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <!-- Anuncia a entrega atual para quem usa leitor de tela -->
+        <p class="sr-only" id="status-carrossel" aria-live="polite">Entrega 1 de 4: Capa do Meu Álbum</p>
+      </div>
+    </div>
+  </section>
+
+  <svg class="onda para-alt" viewBox="0 0 1200 48" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C260,50 420,0 700,18 C900,32 1040,4 1200,22 L1200,48 L0,48 Z"></path>
+  </svg>
+
+  <!-- ================= MANIFESTO ================= -->
+  <section id="manifesto" class="secao alt manifesto">
+    <div class="env">
+      <h2 class="revela">Manifesto</h2>
+      <blockquote class="frase-destaque revela">"Quero transformar minha curiosidade em conhecimento e meu conhecimento em projetos."</blockquote>
+
+      <div class="texto-manifesto revela">
+        <h3 class="sr-only">Meu Manifesto — Tecnologia, Trabalho e Futuro</h3>
+
+        <p>Meu nome é Guilherme Infantini, tenho 15 anos e moro em Varginha, Minas Gerais. Atualmente, faço o curso técnico de Informática para a Internet no Senai, onde estou construindo meus primeiros passos no mundo da Tecnologia da Informação. Minha frase é simples: "Trabalho duro." Acredito que trabalho, força de vontade e esforço são essenciais para aprender, evoluir e transformar ideias em realidade.</p>
+
+        <p>A área de TI sempre me chamou atenção porque está presente em praticamente tudo ao nosso redor. Computadores, celulares, sites, aplicativos, sistemas, jogos e redes são exemplos de tecnologias que fazem parte do nosso dia a dia. Quero entender cada vez mais como essas tecnologias são criadas e como posso utilizá-las para solucionar problemas e desenvolver projetos.</p>
+
+        <p>Tenho interesse principalmente em desenvolvimento de sites e sistemas, área que está diretamente relacionada ao meu curso. Quero aprender mais sobre programação, linguagens de desenvolvimento, HTML, CSS, JavaScript, bancos de dados e outras ferramentas utilizadas na criação de aplicações para a internet. Meu objetivo é não apenas aprender a escrever código, mas compreender a lógica por trás dele e conseguir transformar uma ideia em um projeto funcional.</p>
+
+        <p>Também quero conhecer outras áreas da TI, como segurança da informação, redes de computadores, desenvolvimento de aplicativos, inteligência artificial, banco de dados e computação em nuvem. Sei que a tecnologia está sempre mudando e que novos conhecimentos surgem constantemente. Por isso, considero importante estar disposto a estudar continuamente e acompanhar as novidades do setor.</p>
+
+        <p>Para mim, trabalhar com TI também significa saber resolver problemas. Muitas vezes, um projeto pode apresentar erros ou não funcionar como planejado. Nesses momentos, é necessário ter paciência, pesquisar, testar soluções e aprender com os próprios erros. Quero desenvolver justamente essa capacidade de não desistir diante de uma dificuldade.</p>
+
+        <p>Outra parte importante da área de tecnologia é o trabalho em equipe. Grandes projetos normalmente envolvem várias pessoas com diferentes conhecimentos e responsabilidades. Sou uma pessoa descontraída e gosto de trabalhar com outras pessoas, compartilhando ideias e ajudando na realização dos trabalhos. Quero melhorar cada vez mais minha comunicação e aprender a contribuir para equipes de desenvolvimento.</p>
+
+        <p>Apesar de atualmente estar estudando TI, meu objetivo profissional no futuro é ser advogado. Mesmo assim, acredito que os conhecimentos tecnológicos serão importantes na minha formação. A tecnologia está presente também no Direito, em sistemas jurídicos, documentos digitais, segurança de dados, inteligência artificial e diversas outras áreas.</p>
+
+        <p>Quero continuar aprendendo, criando e experimentando. Quero transformar minha curiosidade em conhecimento e meu conhecimento em projetos. Minha caminhada na TI está apenas começando, mas pretendo seguir com trabalho, força de vontade e esforço, sempre buscando evoluir e me preparar para o futuro.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= CONTATO ================= -->
+<footer id="contato">
+  <div class="env">
+    <h2>Contato</h2>
+    <div class="contatos">
+      <div>
+        <small>E-mail</small>
+        <a href="mailto:guilhermeialmeida2019@gmail.com">guilhermeialmeida2019@gmail.com</a>
+      </div>
+      <div>
+        <small>GitHub</small>
+        <a href="https://github.com/G-Infantini" target="_blank" rel="noopener">github.com/G-Infantini</a>
+      </div>
+      <div>
+        <small>Cidade</small>
+        <span>Varginha, Minas Gerais</span>
+      </div>
+    </div>
+    <p class="assinatura">Guilherme Infantini, 2026</p>
+  </div>
+</footer>
+
+<!-- Menu flutuante, estilo pílula, fixo embaixo da tela -->
+<nav class="menu-flutuante" aria-label="Navegação principal">
+  <a href="#inicio">Início</a>
+  <a href="#sobre">Sobre</a>
+  <a href="#entregas">Entregas</a>
+  <a href="#manifesto">Manifesto</a>
+  <a href="#contato">Contato</a>
+</nav>
+
+<!-- Easter egg escondido: aparece ao clicar no logo "GI" do topo -->
+<div id="tux-surpresa" aria-hidden="true">
+  <svg viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pinguim acenando">
+    <ellipse cx="60" cy="72" rx="34" ry="48" fill="#232323"/>
+    <ellipse cx="60" cy="80" rx="21" ry="36" fill="#F5F5F5"/>
+    <ellipse cx="60" cy="30" rx="24" ry="22" fill="#232323"/>
+    <ellipse cx="60" cy="34" rx="14" ry="13" fill="#F5F5F5"/>
+    <circle cx="54" cy="28" r="3" fill="#232323"/>
+    <circle cx="66" cy="28" r="3" fill="#232323"/>
+    <path d="M55 36 L65 36 L60 43 Z" fill="#D9481C"/>
+    <ellipse cx="46" cy="112" rx="10" ry="5" fill="#D9481C"/>
+    <ellipse cx="74" cy="112" rx="10" ry="5" fill="#D9481C"/>
+    <path class="asa-acenando" d="M30 55 Q10 60 16 85 Q26 82 34 68 Z" fill="#232323"/>
+    <path d="M90 55 Q110 60 104 85 Q94 82 86 68 Z" fill="#232323"/>
+  </svg>
+  <p class="balao">Oi! Você me encontrou.</p>
+</div>
+
+<script>
+  // Verifica se a pessoa pediu para reduzir movimento no sistema dela
+  var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------------------------------------------------
+     1) BARRA DE PROGRESSO DE LEITURA
+     Calcula quanto da página já foi rolado e ajusta a largura da barra.
+     --------------------------------------------------------- */
+  var barraProgresso = document.getElementById('progresso');
+  function atualizarProgresso(){
+    var alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+    var rolado = window.scrollY;
+    var porcentagem = alturaTotal > 0 ? (rolado / alturaTotal) * 100 : 0;
+    barraProgresso.style.width = porcentagem + '%';
+  }
+  window.addEventListener('scroll', atualizarProgresso, { passive: true });
+  atualizarProgresso();
+
+  /* ---------------------------------------------------------
+     2) BOTÃO DE TEMA CLARO/ESCURO
+     Guarda a escolha no localStorage para lembrar na próxima visita.
+     --------------------------------------------------------- */
+  var raiz = document.documentElement;
+  var botaoTema = document.getElementById('botao-tema');
+  var temaSalvo = localStorage.getItem('tema-guilherme');
+  if(temaSalvo){
+    raiz.setAttribute('data-tema', temaSalvo);
+    botaoTema.setAttribute('aria-pressed', String(temaSalvo === 'escuro'));
+  }
+  botaoTema.addEventListener('click', function(){
+    var atual = raiz.getAttribute('data-tema');
+    var novo = atual === 'escuro' ? 'claro' : 'escuro';
+    raiz.setAttribute('data-tema', novo);
+    localStorage.setItem('tema-guilherme', novo);
+    botaoTema.setAttribute('aria-pressed', String(novo === 'escuro'));
+  });
+
+  /* ---------------------------------------------------------
+     3) NOME QUE SE "DECIFRA" LETRA POR LETRA
+     Embaralha o texto e vai revelando as letras certas aos poucos.
+     Se a pessoa pediu para reduzir movimento, mostra o nome direto.
+     --------------------------------------------------------- */
+  var spanNome = document.getElementById('nome-scramble');
+  var nomeFinal = 'Guilherme Infantini';
+  var letrasAleatorias = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+  function embaralharNome(elemento, texto, duracaoMs){
+    var totalFrames = Math.round(duracaoMs / 40);
+    var frame = 0;
+    var intervalo = setInterval(function(){
+      frame++;
+      var progresso = frame / totalFrames;
+      var novoTexto = '';
+      for(var i = 0; i < texto.length; i++){
+        var letra = texto[i];
+        if(letra === ' '){ novoTexto += ' '; continue; }
+        if(i / texto.length < progresso){
+          novoTexto += letra;
+        } else {
+          novoTexto += letrasAleatorias[Math.floor(Math.random() * letrasAleatorias.length)];
+        }
+      }
+      elemento.textContent = novoTexto;
+      if(frame >= totalFrames){
+        elemento.textContent = texto;
+        clearInterval(intervalo);
+      }
+    }, 40);
+  }
+
+  if(reduzirMovimento){
+    spanNome.textContent = nomeFinal;
+  } else {
+    embaralharNome(spanNome, nomeFinal, 900);
+  }
+
+  /* ---------------------------------------------------------
+     4) SEÇÕES SURGEM DE BAIXO PARA CIMA AO ROLAR
+     --------------------------------------------------------- */
+  var itensRevelar = document.querySelectorAll('.revela');
+  if(reduzirMovimento){
+    itensRevelar.forEach(function(el){ el.classList.add('mostrar'); });
+  } else {
+    var observadorRevela = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(entrada){
+        if(entrada.isIntersecting){
+          entrada.target.classList.add('mostrar');
+          observadorRevela.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    itensRevelar.forEach(function(el){ observadorRevela.observe(el); });
+  }
+
+  /* ---------------------------------------------------------
+     5) CARROSSEL EM FORMATO DE CELULAR (seção "Minhas entregas")
+     Passa uma entrega de cada vez. Funciona clicando nas setas,
+     nas bolinhas, arrastando o dedo na tela e com as setas do teclado.
+     --------------------------------------------------------- */
+  var pistaEntregas = document.getElementById('pista-entregas');
+  var slidesEntregas = pistaEntregas.querySelectorAll('.tela-slide');
+  var pontosEntregas = document.querySelectorAll('.ponto');
+  var statusCarrossel = document.getElementById('status-carrossel');
+  var botaoAnterior = document.getElementById('entrega-anterior');
+  var botaoProxima = document.getElementById('entrega-proxima');
+  var telaEntregas = document.querySelector('.tela');
+  var indiceEntregaAtual = 0;
+  var titulosEntregas = [
+    'Capa do Meu Álbum',
+    'Dashboard Quem Sou Eu',
+    'Árvore das Profissões 2.0',
+    'Âncoras de Carreira'
+  ];
+
+  function irParaEntrega(indice){
+    // Dá a volta: depois da última, volta pra primeira (e vice-versa)
+    var total = slidesEntregas.length;
+    indiceEntregaAtual = (indice + total) % total;
+    pistaEntregas.style.setProperty('--indice', indiceEntregaAtual);
+    pontosEntregas.forEach(function(ponto, i){
+      var ativo = i === indiceEntregaAtual;
+      ponto.classList.toggle('ativo', ativo);
+      ponto.setAttribute('aria-selected', String(ativo));
+    });
+    statusCarrossel.textContent =
+      'Entrega ' + (indiceEntregaAtual + 1) + ' de ' + total + ': ' + titulosEntregas[indiceEntregaAtual];
+  }
+
+  botaoAnterior.addEventListener('click', function(){ irParaEntrega(indiceEntregaAtual - 1); });
+  botaoProxima.addEventListener('click', function(){ irParaEntrega(indiceEntregaAtual + 1); });
+  pontosEntregas.forEach(function(ponto){
+    ponto.addEventListener('click', function(){
+      irParaEntrega(Number(ponto.getAttribute('data-indice')));
+    });
+  });
+
+  // Setas do teclado, quando o carrossel estiver em foco
+  document.querySelector('.carrossel-celular').addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight'){ irParaEntrega(indiceEntregaAtual + 1); }
+    if(e.key === 'ArrowLeft'){ irParaEntrega(indiceEntregaAtual - 1); }
+  });
+
+  // Arrastar o dedo na tela do celular (toque)
+  var xToqueInicial = null;
+  telaEntregas.addEventListener('touchstart', function(e){
+    xToqueInicial = e.touches[0].clientX;
+  }, { passive: true });
+  telaEntregas.addEventListener('touchend', function(e){
+    if(xToqueInicial === null) return;
+    var diferenca = xToqueInicial - e.changedTouches[0].clientX;
+    if(Math.abs(diferenca) > 40){
+      irParaEntrega(diferenca > 0 ? indiceEntregaAtual + 1 : indiceEntregaAtual - 1);
+    }
+    xToqueInicial = null;
+  });
+
+  irParaEntrega(0);
+
+  /* ---------------------------------------------------------
+     6) MENU FLUTUANTE: marca o link da seção que está na tela
+     --------------------------------------------------------- */
+  var secoesPagina = ['inicio','sobre','entregas','manifesto','contato']
+    .map(function(id){ return document.getElementById(id); })
+    .filter(Boolean);
+  var linksMenu = document.querySelectorAll('.menu-flutuante a');
+  var observadorMenu = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(entrada){
+      if(entrada.isIntersecting){
+        linksMenu.forEach(function(link){
+          link.classList.toggle('ativo', link.getAttribute('href') === '#' + entrada.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  secoesPagina.forEach(function(s){ observadorMenu.observe(s); });
+
+  /* ---------------------------------------------------------
+     7) CIDADE DE FUNDO — desenha os prédios uma vez.
+     As janelas ganham a classe "janela" pra poderem piscar no apagão.
+     --------------------------------------------------------- */
+  var svgCidade = document.getElementById('cidade');
+  var nsSvg = 'http://www.w3.org/2000/svg';
+
+  function desenharCidade(){
+    svgCidade.innerHTML = '';
+    var x = 0;
+    while(x < 1200){
+      var largura = 40 + Math.random() * 60;
+      var altura = 60 + Math.random() * 140;
+      var predio = document.createElementNS(nsSvg, 'rect');
+      predio.setAttribute('x', x);
+      predio.setAttribute('y', 220 - altura);
+      predio.setAttribute('width', largura);
+      predio.setAttribute('height', altura);
+      predio.style.fill = 'var(--primaria)';
+      svgCidade.appendChild(predio);
+
+      // janelas espalhadas pelo prédio, algumas acesas, outras não
+      var colunas = Math.max(1, Math.floor(largura / 14));
+      var linhas = Math.max(1, Math.floor(altura / 18));
+      for(var c = 0; c < colunas; c++){
+        for(var l = 0; l < linhas; l++){
+          if(Math.random() < 0.55){
+            var janela = document.createElementNS(nsSvg, 'rect');
+            janela.setAttribute('class', 'janela');
+            janela.setAttribute('x', x + 6 + c * 13);
+            janela.setAttribute('y', 220 - altura + 8 + l * 17);
+            janela.setAttribute('width', 6);
+            janela.setAttribute('height', 9);
+            janela.style.fill = 'var(--destaque)';
+            janela.style.opacity = (0.3 + Math.random() * 0.6).toFixed(2);
+            janela.style.transition = 'opacity .3s ease';
+            svgCidade.appendChild(janela);
+          }
+        }
+      }
+      x += largura + 6 + Math.random() * 14;
+    }
+  }
+  desenharCidade();
+
+  /* ---------------------------------------------------------
+     8) CHUVA — cai devagar na frente da cidade (canvas).
+     Some se a pessoa pediu para reduzir movimento.
+     --------------------------------------------------------- */
+  var canvasChuva = document.getElementById('chuva');
+  var ctxChuva = canvasChuva.getContext('2d');
+  var gotas = [];
+
+  function ajustarTamanhoChuva(){
+    canvasChuva.width = window.innerWidth;
+    canvasChuva.height = window.innerHeight;
+  }
+  ajustarTamanhoChuva();
+  window.addEventListener('resize', ajustarTamanhoChuva);
+
+  function criarGotas(){
+    gotas = [];
+    var quantidade = Math.round(window.innerWidth / 22);
+    for(var i = 0; i < quantidade; i++){
+      gotas.push({
+        x: Math.random() * canvasChuva.width,
+        y: Math.random() * canvasChuva.height,
+        comprimento: 10 + Math.random() * 14,
+        velocidade: 4 + Math.random() * 5
+      });
+    }
+  }
+
+  function desenharChuva(){
+    ctxChuva.clearRect(0, 0, canvasChuva.width, canvasChuva.height);
+    ctxChuva.strokeStyle = 'rgba(139, 94, 60, .45)';
+    ctxChuva.lineWidth = 1.4;
+    gotas.forEach(function(gota){
+      ctxChuva.beginPath();
+      ctxChuva.moveTo(gota.x, gota.y);
+      ctxChuva.lineTo(gota.x, gota.y + gota.comprimento);
+      ctxChuva.stroke();
+      gota.y += gota.velocidade;
+      if(gota.y > canvasChuva.height){
+        gota.y = -gota.comprimento;
+        gota.x = Math.random() * canvasChuva.width;
+      }
+    });
+    requestAnimationFrame(desenharChuva);
+  }
+
+  if(!reduzirMovimento){
+    criarGotas();
+    desenharChuva();
+  }
+
+  /* ---------------------------------------------------------
+     9) APAGÃO — de vez em quando, a luz da cidade pisca.
+     Não acontece se a pessoa pediu para reduzir movimento.
+     --------------------------------------------------------- */
+  var divApagao = document.getElementById('apagao');
+
+  function piscarLuz(){
+    var janelas = document.querySelectorAll('#cidade .janela');
+    divApagao.style.opacity = '.18';
+    janelas.forEach(function(j){ j.style.opacity = '.05'; });
+    setTimeout(function(){
+      divApagao.style.opacity = '0';
+      janelas.forEach(function(j){ j.style.opacity = (0.3 + Math.random() * 0.6).toFixed(2); });
+    }, 260);
+  }
+
+  function agendarProximoApagao(){
+    var espera = 9000 + Math.random() * 9000;
+    setTimeout(function(){
+      piscarLuz();
+      agendarProximoApagao();
+    }, espera);
+  }
+
+  if(!reduzirMovimento){
+    agendarProximoApagao();
+  }
+
+  /* ---------------------------------------------------------
+     10) CURSOR PERSONALIZADO — só em aparelhos com mouse de verdade
+     e só se a pessoa não pediu para reduzir movimento.
+     --------------------------------------------------------- */
+  var elementoCursor = document.querySelector('.cursor');
+  var temMouseFino = window.matchMedia('(pointer: fine)').matches;
+
+  if(temMouseFino && !reduzirMovimento){
+    document.body.classList.add('cursor-ativo');
+    document.addEventListener('mousemove', function(e){
+      elementoCursor.style.left = e.clientX + 'px';
+      elementoCursor.style.top = e.clientY + 'px';
+    });
+    document.addEventListener('mouseover', function(e){
+      if(e.target.closest('a, button')){
+        elementoCursor.classList.add('sobre-link');
+      }
+    });
+    document.addEventListener('mouseout', function(e){
+      if(e.target.closest('a, button')){
+        elementoCursor.classList.remove('sobre-link');
+      }
+    });
+  }
+
+  /* ---------------------------------------------------------
+     11) CONFETE — estoura quando clico no meu nome, no topo da página
+     --------------------------------------------------------- */
+  var canvasConfete = document.getElementById('confete');
+  var ctxConfete = canvasConfete.getContext('2d');
+  var particulasConfete = [];
+  var coresConfete = ['#8B5E3C', '#C9A27E', '#D9481C', '#F5EFE6'];
+
+  function ajustarTamanhoConfete(){
+    canvasConfete.width = window.innerWidth;
+    canvasConfete.height = window.innerHeight;
+  }
+  ajustarTamanhoConfete();
+  window.addEventListener('resize', ajustarTamanhoConfete);
+
+  function estourarConfete(origemX, origemY){
+    for(var i = 0; i < 70; i++){
+      var angulo = Math.random() * Math.PI * 2;
+      var velocidade = 3 + Math.random() * 6;
+      particulasConfete.push({
+        x: origemX,
+        y: origemY,
+        vx: Math.cos(angulo) * velocidade,
+        vy: Math.sin(angulo) * velocidade - 3,
+        tamanho: 4 + Math.random() * 5,
+        cor: coresConfete[Math.floor(Math.random() * coresConfete.length)],
+        rotacao: Math.random() * 360,
+        vRotacao: (Math.random() - 0.5) * 14,
+        vida: 90 + Math.random() * 30
+      });
+    }
+    if(particulasConfete.length <= 70){ animarConfete(); }
+  }
+
+  function animarConfete(){
+    ctxConfete.clearRect(0, 0, canvasConfete.width, canvasConfete.height);
+    particulasConfete = particulasConfete.filter(function(p){ return p.vida > 0; });
+    particulasConfete.forEach(function(p){
+      p.vx *= 0.99;
+      p.vy += 0.16; // gravidade
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotacao += p.vRotacao;
+      p.vida--;
+      ctxConfete.save();
+      ctxConfete.translate(p.x, p.y);
+      ctxConfete.rotate(p.rotacao * Math.PI / 180);
+      ctxConfete.fillStyle = p.cor;
+      ctxConfete.fillRect(-p.tamanho / 2, -p.tamanho / 2, p.tamanho, p.tamanho * 0.6);
+      ctxConfete.restore();
+    });
+    if(particulasConfete.length > 0){
+      requestAnimationFrame(animarConfete);
+    } else {
+      ctxConfete.clearRect(0, 0, canvasConfete.width, canvasConfete.height);
+    }
+  }
+
+  var tituloHero = document.querySelector('.hero h1');
+  if(tituloHero){
+    tituloHero.style.cursor = 'pointer';
+    tituloHero.addEventListener('click', function(){
+      if(reduzirMovimento) return; // sem motion, sem confete
+      var retangulo = tituloHero.getBoundingClientRect();
+      estourarConfete(retangulo.left + retangulo.width / 2, retangulo.top + retangulo.height / 2);
+    });
+  }
+
+  /* ---------------------------------------------------------
+     12) TUX — easter egg escondido: clique no logo "GI" do topo
+     --------------------------------------------------------- */
+  var logoTux = document.getElementById('logo');
+  var tuxSurpresa = document.getElementById('tux-surpresa');
+  var tuxTimeout = null;
+
+  if(logoTux && tuxSurpresa){
+    logoTux.addEventListener('click', function(){
+      tuxSurpresa.classList.remove('aparece');
+      void tuxSurpresa.offsetWidth; // força o navegador a "esquecer" a animação anterior
+      tuxSurpresa.classList.add('aparece');
+      clearTimeout(tuxTimeout);
+      tuxTimeout = setTimeout(function(){
+        tuxSurpresa.classList.remove('aparece');
+      }, 2600);
+    });
+  }
+</script>
+
+</body>
+</html>
