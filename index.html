@@ -258,7 +258,16 @@
   }
   /* slide que é só uma imagem (capa do álbum): ocupa a tela toda, sem margem */
   .tela-slide-imagem{padding:0;overflow:hidden}
-  .capa-album{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+  .abrir-capa{
+    display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0;height:100%;
+    text-align:center;text-decoration:none;color:var(--fundo);background:var(--texto);
+  }
+  .abrir-capa:focus-visible{outline:3px solid var(--destaque);outline-offset:-4px}
+  .abrir-capa span{font-weight:800;padding:.4rem .65rem;text-decoration:underline}
+  .capa-album{display:block;width:100%;height:100%;object-fit:contain;background:#111825}
+  .entregas-pendentes{max-width:28rem;margin:2rem auto 0}
+  .entregas-pendentes summary{cursor:pointer;font-weight:700}
+  .entregas-pendentes ul{margin:.5rem 0 0;padding-left:1.5rem}
   .tela-slide .numero{
     font-family:'Fraunces',serif;font-size:.82rem;
     color:var(--primaria);font-weight:700;margin:0 0 6px;
@@ -483,6 +492,18 @@
     html{scroll-behavior:auto}
   }
 </style>
+<noscript>
+  <style>
+    .revela{opacity:1;transform:none}
+    .carrossel-celular{max-width:40rem}
+    .celular,.tela{padding:0;aspect-ratio:auto;background:transparent;box-shadow:none}
+    .tela-pista{display:grid;gap:1rem}
+    .tela-slide{background:var(--fundo-alt);border-radius:1rem}
+    .abrir-capa{height:auto}
+    .capa-album{height:16rem}
+    .controles-celular,.entalhe,.botao-lateral{display:none}
+  </style>
+</noscript>
 </head>
 <body>
 
@@ -584,7 +605,7 @@
            Dá pra passar clicando nas setas, nas bolinhas, arrastando o
            dedo na tela (celular de verdade) ou com as setas do teclado. -->
       <div class="carrossel-celular revela" tabindex="0"
-           aria-roledescription="carrossel" aria-label="Minhas entregas, uma por vez">
+           role="region" aria-roledescription="carrossel" aria-label="Minhas entregas, uma por vez">
 
         <div class="celular">
           <div class="entalhe" aria-hidden="true"></div>
@@ -592,70 +613,26 @@
           <div class="tela">
             <ul class="tela-pista" id="pista-entregas" style="--indice:0">
 
-              <!-- Cada slide é uma entrega. Troque data, status e link quando
-                   ela estiver pronta: selo.em-breve -> selo.concluida,
-                   troque o <span class="link-desativado"> por
-                   <a class="link-entrega" href="LINK-REAL">Abrir pasta</a>. -->
               <li class="tela-slide tela-slide-imagem">
-                <!-- A capa do álbum ocupa a tela inteira do celular. O título fica só para leitor de tela. -->
-                <h3 class="sr-only">Entrega 01 — Capa do Meu Álbum</h3>
-                
-<img
-  class="capa-album"
-  src="capa-meu-album.png"
-  width="800"
-  height="1437"
-  alt="Capa do álbum Máfia Azul GuiGui, com cinco faixas"
-/>
-
-</li>
-
-              <li class="tela-slide">
-                <p class="numero">Entrega 02</p>
-                <h3>Dashboard Quem Sou Eu</h3>
-                <p class="data">Data: [PREENCHER]</p>
-                <span class="selo em-breve">Em breve</span>
-                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
-                <span class="link-desativado">Pasta ainda não publicada</span>
+                <h3 class="sr-only">Capa do Meu Álbum</h3>
+                <a class="abrir-capa" href="capa-do-meu-album/">
+                  <img class="capa-album" src="capa-meu-album.png" width="937" height="1678"
+                       alt="Capa do álbum Máfia Azul GuiGui, com cinco faixas">
+                  <span>Abrir a capa do álbum</span>
+                </a>
               </li>
-
               <li class="tela-slide">
-                <p class="numero">Entrega 03</p>
-                <h3>Árvore das Profissões 2.0</h3>
-                <p class="data">Data: [PREENCHER]</p>
-                <span class="selo em-breve">Em breve</span>
-                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
-                <span class="link-desativado">Pasta ainda não publicada</span>
+                <p class="numero">Mundo SENAI 2026</p>
+                <h3>Laboratório Maker</h3>
+                <p class="resumo">Apresentei a impressora 3D Bambu Lab A1, a cortadora a laser Marfran MF 9060 e o braço robótico aos visitantes do laboratório.</p>
+                <a class="link-entrega" href="https://github.com/G-Infantini/mundo-senai-2026">Ler o relato do evento</a>
               </li>
-
               <li class="tela-slide">
-                <p class="numero">Entrega 04</p>
-                <h3>Âncoras de Carreira</h3>
-                <p class="data">Data: [PREENCHER]</p>
-                <span class="selo em-breve">Em breve</span>
-                <p class="resumo">[PREENCHER: uma frase sobre o que você aprendeu nesta atividade]</p>
-                <span class="link-desativado">Pasta ainda não publicada</span>
-              </li> 
-              <li class="tela-slide">
-  <p class="numero">Entrega 05</p>
-  <h3>Mundo SENAI 2026 — Laboratório Maker</h3>
-  <p class="data">Data: 2026</p>
-  <span class="selo concluida">Concluído</span>
-  <p class="resumo">
-    Apresentação do Laboratório Maker do SENAI,
-    incluindo a impressora 3D Bambu Lab A1,
-    a cortadora a laser Marfran MF 9060
-    e um braço robótico para visitantes
-    e estudantes de outras escolas.
-  </p>
-  <a class="link-entrega"
-     href="https://github.com/G-Infantini/mundo-senai-2026"
-     target="_blank"
-     rel="noopener noreferrer">
-    Ver projeto no GitHub
-  </a>
-</li>
-
+                <p class="numero">Mundo do Trabalho</p>
+                <h3>TechConnect</h3>
+                <p class="resumo">Site de uma empresa fictícia de tecnologia. Reúne quatro serviços, exemplos de projetos e um formulário de contato demonstrativo.</p>
+                <a class="link-entrega" href="https://g-infantini.github.io/Mundo-do-trabalho/">Visitar o site TechConnect</a>
+              </li>
             </ul>
           </div>
 
@@ -668,13 +645,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
           </button>
 
-          <div class="pontos" id="pontos-entregas" role="tablist" aria-label="Ir direto para uma entrega">
-            <button type="button" class="ponto ativo" data-indice="0" role="tab" aria-selected="true" aria-label="Entrega 1"></button>
-            <button type="button" class="ponto" data-indice="1" role="tab" aria-selected="false" aria-label="Entrega 2"></button>
-            <button type="button" class="ponto" data-indice="2" role="tab" aria-selected="false" aria-label="Entrega 3"></button>
-            <button type="button" class="ponto" data-indice="3" role="tab" aria-selected="false" aria-label="Entrega 4"></button>
-            <button type="button" class="ponto" data-indice="4" role="tab" aria-selected="false" aria-label="Entrega 5"></button>
-          </div>
+          <div class="pontos" id="pontos-entregas" role="group" aria-label="Escolher um projeto"></div>
 
           <button type="button" id="entrega-proxima" class="seta-celular" aria-label="Próxima entrega">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
@@ -682,8 +653,17 @@
         </div>
 
         <!-- Anuncia a entrega atual para quem usa leitor de tela -->
-        <p class="sr-only" id="status-carrossel" aria-live="polite">Entrega 1 de 4: Capa do Meu Álbum</p>
+        <p class="sr-only" id="status-carrossel" aria-live="polite">Entrega 1 de 3. Capa do Meu Álbum</p>
       </div>
+
+      <details class="entregas-pendentes">
+        <summary>Entregas sem arquivo publicado</summary>
+        <ul>
+          <li>Dashboard Quem Sou Eu</li>
+          <li>Árvore das Profissões 2.0</li>
+          <li>Âncoras de Carreira</li>
+        </ul>
+      </details>
     </div>
   </section>
 
@@ -871,41 +851,45 @@
      --------------------------------------------------------- */
   var pistaEntregas = document.getElementById('pista-entregas');
   var slidesEntregas = pistaEntregas.querySelectorAll('.tela-slide');
-  var pontosEntregas = document.querySelectorAll('.ponto');
+  var grupoPontos = document.getElementById('pontos-entregas');
+  var pontosEntregas = Array.from(slidesEntregas, function(slide, indice){
+    var ponto = document.createElement('button');
+    ponto.type = 'button';
+    ponto.className = 'ponto';
+    ponto.setAttribute('aria-label', 'Mostrar ' + slide.querySelector('h3').textContent);
+    ponto.addEventListener('click', function(){ irParaEntrega(indice); });
+    grupoPontos.appendChild(ponto);
+    return ponto;
+  });
   var statusCarrossel = document.getElementById('status-carrossel');
   var botaoAnterior = document.getElementById('entrega-anterior');
   var botaoProxima = document.getElementById('entrega-proxima');
   var telaEntregas = document.querySelector('.tela');
   var indiceEntregaAtual = 0;
-var titulosEntregas = [
-  'Capa do Meu Álbum',
-  'Dashboard Quem Sou Eu',
-  'Árvore das Profissões 2.0',
-  'Âncoras de Carreira',
-  'Mundo SENAI 2026 — Laboratório Maker'
-];
 
   function irParaEntrega(indice){
     // Dá a volta: depois da última, volta pra primeira (e vice-versa)
     var total = slidesEntregas.length;
     indiceEntregaAtual = (indice + total) % total;
     pistaEntregas.style.setProperty('--indice', indiceEntregaAtual);
+    var slideComFoco = document.activeElement.closest('.tela-slide');
+    slidesEntregas.forEach(function(slide, i){
+      slide.inert = i !== indiceEntregaAtual;
+    });
+    if(slideComFoco && slideComFoco !== slidesEntregas[indiceEntregaAtual]){
+      pontosEntregas[indiceEntregaAtual].focus();
+    }
     pontosEntregas.forEach(function(ponto, i){
       var ativo = i === indiceEntregaAtual;
       ponto.classList.toggle('ativo', ativo);
-      ponto.setAttribute('aria-selected', String(ativo));
+      ponto.setAttribute('aria-pressed', String(ativo));
     });
     statusCarrossel.textContent =
-      'Entrega ' + (indiceEntregaAtual + 1) + ' de ' + total + ': ' + titulosEntregas[indiceEntregaAtual];
+      'Entrega ' + (indiceEntregaAtual + 1) + ' de ' + total + '. ' + slidesEntregas[indiceEntregaAtual].querySelector('h3').textContent;
   }
 
   botaoAnterior.addEventListener('click', function(){ irParaEntrega(indiceEntregaAtual - 1); });
   botaoProxima.addEventListener('click', function(){ irParaEntrega(indiceEntregaAtual + 1); });
-  pontosEntregas.forEach(function(ponto){
-    ponto.addEventListener('click', function(){
-      irParaEntrega(Number(ponto.getAttribute('data-indice')));
-    });
-  });
 
   // Setas do teclado, quando o carrossel estiver em foco
   document.querySelector('.carrossel-celular').addEventListener('keydown', function(e){
