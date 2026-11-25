@@ -2,7 +2,7 @@
 
 Máfia Azul GuiGui é uma apresentação pessoal em formato de capa de álbum. A composição reúne referências ao esporte e cinco faixas sobre uma crença, um valor, um talento, um medo e um sonho.
 
-[Abrir a página da capa](https://g-infantini.github.io/Portfolio/capa-do-meu-album/) · [Ver a imagem em tamanho original](../capa-meu-album.png)
+[Abrir a página da capa](https://g-infantini.github.io/Portfolio/capa-do-meu-album/) · [Ver a imagem em tamanho original](imagens/capa-meu-album.png)
 
 ## Tecnologias
 
@@ -16,6 +16,6 @@ A capa já fazia parte do portfólio. Durante a organização dos projetos com a
 
 A página preserva as proporções da arte para que todas as faixas fiquem visíveis. O texto alternativo descreve a composição, e o link da imagem funciona também pelo teclado.
 
-Para ver no computador, baixe o portfólio e abra `capa-do-meu-album/index.html`.
+A pasta contém o projeto completo. Abra `index.html` para vê-lo no computador. Para publicá-lo em um repositório próprio, coloque `index.html`, `README.md` e a pasta `imagens/` na raiz.
 
 Atividade do Curso Técnico em Informática para Internet · SENAI Varginha · 2026
