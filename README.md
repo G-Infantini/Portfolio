@@ -9,7 +9,7 @@ Página que reúne os trabalhos do curso Técnico em Informática para Internet.
 | Projeto | O que você encontra |
 | --- | --- |
 | [Capa do Meu Álbum](https://g-infantini.github.io/Portfolio/capa-do-meu-album/) | Apresentação pessoal em cinco faixas, na capa Máfia Azul GuiGui. |
-| [Mundo SENAI 2026](https://github.com/G-Infantini/mundo-senai-2026) | Relato da apresentação de três equipamentos do Laboratório Maker com registro fotográfico. |
+| [Mundo SENAI 2026](https://g-infantini.github.io/Portfolio/mundo-senai-2026/) | Relato da apresentação de três equipamentos do Laboratório Maker com registro fotográfico. |
 | [TechConnect](https://g-infantini.github.io/Mundo-do-trabalho/) | Site de uma empresa fictícia com serviços, projetos ilustrativos e formulário demonstrativo. |
 
 ## Como foi feito
@@ -21,6 +21,8 @@ Nesta atualização, o pedido ao ChatGPT foi organizar o GitHub conforme o guia 
 ## Ajustes no portfólio
 
 Cada trabalho disponível ganhou um card com link. As três atividades que só tinham título passaram para **Entregas sem arquivo publicado**. A contagem e os botões do carrossel acompanham a quantidade de cards.
+
+A página do Mundo SENAI vem do [repositório do evento](https://github.com/G-Infantini/mundo-senai-2026). A pasta `mundo-senai-2026/` referencia a versão apresentada no portfólio.
 
 ## Aprendizados do projeto
 
